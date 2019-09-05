@@ -20,6 +20,8 @@ public class RoomsAndMazes : PCGAlgorithm
 
         while (!dungeonValid)
         {
+            ClearCave();
+
             InitializeCave();
 
             CreateRooms();
@@ -36,6 +38,12 @@ public class RoomsAndMazes : PCGAlgorithm
         }
 
         return ConvertRoomsAndMazesDungeon2PCGDungeon();
+    }
+
+    public override void ClearCave()
+    {
+        gridInitialized = false;
+        grid = null;
     }
 
     #region createCaveRegion
@@ -366,7 +374,7 @@ public class RoomsAndMazes : PCGAlgorithm
 
     private void OnDrawGizmos()
     {
-        if (gridInitialized)
+        if (gridInitialized && grid != null)
         {
             for (int y = 0; y < caveHeight; y++)
             {

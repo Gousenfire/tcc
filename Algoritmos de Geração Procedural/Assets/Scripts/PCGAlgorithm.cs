@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public abstract class PCGAlgorithm : MonoBehaviour
     }
 
     public abstract CaveCell[][] GenerateCave();
+    public abstract void ClearCave();
 
     #region HelperMethods
 
@@ -23,6 +25,7 @@ public abstract class PCGAlgorithm : MonoBehaviour
     {
         return x >= 0 && x < caveWidth && y >= 0 && y < caveHeight;
     }
+
 
     protected bool IsBorderCell(int x, int y)
     {

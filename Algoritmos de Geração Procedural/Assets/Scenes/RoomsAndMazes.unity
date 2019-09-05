@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1edfd9db5ca2ccd4c9422c01504559ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  caveWidth: 1600
-  caveHeight: 900
+  caveWidth: 160
+  caveHeight: 90
   initWithSurroundingWalls: 0
   minRoomSize: 7
   maxRoomSize: 11
