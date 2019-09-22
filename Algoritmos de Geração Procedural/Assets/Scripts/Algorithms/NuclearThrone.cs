@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class NuclearThrone : PCGAlgorithm
 {
+    [Tooltip("Cave Width and Heights are set by script, leave it as zero")]
     [SerializeField] int caveSize = 120;
 
     [Header("Floor Makers")]
@@ -29,17 +30,17 @@ public class NuclearThrone : PCGAlgorithm
     private int currentFloors;
     private int floorMakersCount;
 
-    public override CaveCell[][] GenerateCave()
+    public override void GenerateCave()
     {
-        if (caveIsBeingConstructed) return null;
+        if (caveIsBeingConstructed) return;
         caveIsBeingConstructed = true;
-        InitializeCave();
+        InitCave();
         IterateFloorMakers();
-        return grid;
     }
 
-    private void InitializeCave()
+    protected override void InitCave()
     {
+        base.InitCave();
         floorMakersCount = currentFloors = 0;
         caveWidth = caveHeight = Mathf.CeilToInt(Mathf.Log(caveSize) / Mathf.Log(2)) * 5;
         grid = new CaveCell[caveWidth][];

@@ -5,6 +5,10 @@ using UnityEngine;
 
 public abstract class PCGAlgorithm : MonoBehaviour
 {
+    [Header("Random")]
+    [Tooltip("Leave blank for the script to generate a random seed")]
+    [SerializeField] protected string seed;
+
     [Header("Grid Configuration")]
     [SerializeField] protected int caveWidth;
     [SerializeField] protected int caveHeight;
@@ -16,8 +20,16 @@ public abstract class PCGAlgorithm : MonoBehaviour
         Debug.Log("Cave created in: " + (Time.realtimeSinceStartup - time) + " seconds");
     }
 
-    public abstract CaveCell[][] GenerateCave();
+    public abstract void GenerateCave();
     public abstract void ClearCave();
+    protected virtual void InitCave()
+    {
+        if (seed == "")
+        {
+            seed = UnityEngine.Random.value + "|" + UnityEngine.Random.value;
+        }
+        UnityEngine.Random.InitState(seed.GetHashCode());
+    }
 
     #region HelperMethods
 

@@ -14,7 +14,7 @@ public class RoomsAndMazes : PCGAlgorithm
     private RoomsAndMazesCell[][] grid;
     private bool gridInitialized = false;
 
-    public override CaveCell[][] GenerateCave()
+    public override void GenerateCave()
     {
         bool dungeonValid = false;
 
@@ -22,7 +22,7 @@ public class RoomsAndMazes : PCGAlgorithm
         {
             ClearCave();
 
-            InitializeCave();
+            InitCave();
 
             CreateRooms();
 
@@ -36,8 +36,6 @@ public class RoomsAndMazes : PCGAlgorithm
 
             dungeonValid = ValidateDungeon();
         }
-
-        return ConvertRoomsAndMazesDungeon2PCGDungeon();
     }
 
     public override void ClearCave()
@@ -48,8 +46,9 @@ public class RoomsAndMazes : PCGAlgorithm
 
     #region createCaveRegion
 
-    private void InitializeCave()
+    protected override void InitCave()
     {
+        base.InitCave();
         grid = new RoomsAndMazesCell[caveWidth][];
 
         for (int x = 0; x < caveWidth; x++)
@@ -333,22 +332,6 @@ public class RoomsAndMazes : PCGAlgorithm
     }
 
     private bool ValidateDungeon() { return true; }
-
-    private CaveCell[][] ConvertRoomsAndMazesDungeon2PCGDungeon()
-    {
-        CaveCell[][] caveGrid = new CaveCell[caveWidth][];
-
-        for (int x = 0; x < caveWidth; x++)
-        {
-            caveGrid[x] = new CaveCell[caveHeight];
-            for (int y = 0; y < caveHeight; y++)
-            {
-                caveGrid[x][y] = grid[x][y].convertCellToPCGCell();
-            }
-        }
-
-        return caveGrid;
-    }
 
     #endregion
 
