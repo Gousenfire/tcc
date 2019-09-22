@@ -9,9 +9,9 @@ public abstract class PCGAlgorithm : MonoBehaviour
     [Tooltip("Leave blank for the script to generate a random seed")]
     [SerializeField] protected string seed;
 
-    [Header("Grid Configuration")]
-    [SerializeField] protected int caveWidth;
-    [SerializeField] protected int caveHeight;
+    [Header("Grid")]
+    [SerializeField] protected int caveWidth = 20;
+    [SerializeField] protected int caveHeight = 20;
 
     private void Start()
     {
@@ -57,11 +57,24 @@ public abstract class PCGAlgorithm : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Itarete through all (top, bottom, left and right) the neighbours of a cell giving its coords
+    /// </summary>
+    /// <param name="iterator">The function that will be call when the neightbour exist</param>
+    /// <param name="centerX">X coordinates of the main cell</param>
+    /// <param name="centerY">Y coordinates of the main cell</param>
     protected void IterateThroughNeighbours(CaveCellsIterator iterator, int centerX, int centerY)
     {
         IterateThroughNeighbours(iterator, (int x, int y) => { }, centerX, centerY);
     }
 
+    /// <summary>
+    /// Itarete through all (top, bottom, left and right) the neighbours of a cell giving its coords
+    /// </summary>
+    /// <param name="iterator">The function that will be called when the neightbour exist</param>
+    /// <param name="notOnGridIterator">The function that will be called when the neightbour doesn't exists</param>
+    /// <param name="centerX">X coordinates of the main cell</param>
+    /// <param name="centerY">Y coordinates of the main cell</param>
     protected void IterateThroughNeighbours(CaveCellsIterator iterator, CaveCellsIterator notOnGridIterator, int centerX, int centerY)
     {
         // Top Neighbour 

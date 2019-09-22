@@ -163,13 +163,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1edfd9db5ca2ccd4c9422c01504559ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  caveWidth: 500
-  caveHeight: 500
+  seed: 
+  caveWidth: 50
+  caveHeight: 50
   initWithSurroundingWalls: 0
   minRoomSize: 7
   maxRoomSize: 11
-  maxRoomsAmmout: 1000
-  createRoomsAttempts: 6000
+  maxRoomsAmmout: 10
+  createRoomsAttempts: 600
 --- !u!1 &2052896230
 GameObject:
   m_ObjectHideFlags: 0

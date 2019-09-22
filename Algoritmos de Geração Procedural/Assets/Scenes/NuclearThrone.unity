@@ -163,8 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878095b41c2e0eb4aa2d25db89264deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  caveWidth: 0
-  caveHeight: 0
+  seed: 
+  caveWidth: 45
+  caveHeight: 45
   caveSize: 500
   createOtherFloorMakerChance: 0.1
   destroyOneFloorMakerChance: 0.01

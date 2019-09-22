@@ -5,7 +5,8 @@ using UnityEngine;
 public class RoomsAndMazes : PCGAlgorithm
 {
     [SerializeField] private bool initWithSurroundingWalls = false;
-    [Header("Rooms Configuration")]
+
+    [Header("Rooms")]
     [SerializeField] private int minRoomSize = 5;
     [SerializeField] private int maxRoomSize = 9;
     [SerializeField] private int maxRoomsAmmout = 10;
