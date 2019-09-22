@@ -73,14 +73,6 @@ public abstract class PCGAlgorithm : MonoBehaviour
 
 }
 
-public enum CaveCellType
-{
-    Ground,
-    Wall,
-    Door,
-    Trap
-}
-
 [System.Serializable]
 public class CaveCell
 {
@@ -96,4 +88,11 @@ public class CaveCell
         this.y = y;
         this.type = type;
     }
+}
+
+public enum CaveCellType
+{
+    Ground,
+    Wall,
+    Door
 }

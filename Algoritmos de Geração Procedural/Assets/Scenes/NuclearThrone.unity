@@ -160,16 +160,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1254039059}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1edfd9db5ca2ccd4c9422c01504559ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 878095b41c2e0eb4aa2d25db89264deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  caveWidth: 500
-  caveHeight: 500
-  initWithSurroundingWalls: 0
-  minRoomSize: 7
-  maxRoomSize: 11
-  maxRoomsAmmout: 1000
-  createRoomsAttempts: 6000
+  caveWidth: 0
+  caveHeight: 0
+  caveSize: 500
+  createOtherFloorMakerChance: 0.1
+  destroyOneFloorMakerChance: 0.01
+  maxFloorMakers: 5
+  startDirection: 2
+  spawn1v1Occurance: 10
+  spawn2v2Occurance: 2
+  spawn3v3Occurance: 1
+  forwardOccurance: 20
+  turn90DegreesOccurance: 4
+  turn180DegreesOccurance: 1
 --- !u!1 &2052896230
 GameObject:
   m_ObjectHideFlags: 0
