@@ -63,9 +63,9 @@ public abstract class PCGAlgorithm : MonoBehaviour
     /// <param name="iterator">The function that will be call when the neightbour exist</param>
     /// <param name="centerX">X coordinates of the main cell</param>
     /// <param name="centerY">Y coordinates of the main cell</param>
-    protected void IterateThroughNeighbours(CaveCellsIterator iterator, int centerX, int centerY)
+    protected void IterateThroughNeumannNeighbours(CaveCellsIterator iterator, int centerX, int centerY)
     {
-        IterateThroughNeighbours(iterator, (int x, int y) => { }, centerX, centerY);
+        IterateThroughNeumannNeighbours(iterator, (int x, int y) => { }, centerX, centerY);
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public abstract class PCGAlgorithm : MonoBehaviour
     /// <param name="notOnGridIterator">The function that will be called when the neightbour doesn't exists</param>
     /// <param name="centerX">X coordinates of the main cell</param>
     /// <param name="centerY">Y coordinates of the main cell</param>
-    protected void IterateThroughNeighbours(CaveCellsIterator iterator, CaveCellsIterator notOnGridIterator, int centerX, int centerY)
+    protected void IterateThroughNeumannNeighbours(CaveCellsIterator iterator, CaveCellsIterator notOnGridIterator, int centerX, int centerY)
     {
         // Top Neighbour 
         if (IsOnGrid(centerX, centerY + 1)) iterator(centerX, centerY + 1);
@@ -92,6 +92,26 @@ public abstract class PCGAlgorithm : MonoBehaviour
         // Left Neighbour 
         if (IsOnGrid(centerX - 1, centerY)) iterator(centerX - 1, centerY);
         else notOnGridIterator(centerX - 1, centerY);
+    }
+
+    protected void IterateThroughMooreNeighbours(CaveCellsIterator iterator, int centerX, int centerY)
+    {
+        IterateThroughMooreNeighbours(iterator, (int x, int y) => { }, centerX, centerY);
+    }
+
+    protected void IterateThroughMooreNeighbours(CaveCellsIterator iterator, CaveCellsIterator notOnGridIterator, int centerX, int centerY)
+    {
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if (x != 0 || y != 0)
+                {
+                    if (IsOnGrid(centerX + x, centerY + y)) iterator(centerX + x, centerY + y);
+                    else notOnGridIterator(centerX + x, centerY + y);
+                }
+            }
+        }
     }
 
     #endregion

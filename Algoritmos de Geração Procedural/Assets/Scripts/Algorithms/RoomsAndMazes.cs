@@ -146,7 +146,7 @@ public class RoomsAndMazes : PCGAlgorithm
                 mazePossibleCells.Remove(currentCell);
                 grid[currentCell.x][currentCell.y].type = RoomsAndMazesCellType.SemiGround;
 
-                IterateThroughNeighbours(new CaveCellsIterator((int x, int y) =>
+                IterateThroughNeumannNeighbours(new CaveCellsIterator((int x, int y) =>
                 {
                     if (grid[x][y].type == RoomsAndMazesCellType.Null)
                     {
@@ -167,7 +167,7 @@ public class RoomsAndMazes : PCGAlgorithm
     private bool IsConnection(int x, int y)
     {
         string neighboursCode = "";
-        IterateThroughNeighbours(new CaveCellsIterator((int nX, int nY) =>
+        IterateThroughNeumannNeighbours(new CaveCellsIterator((int nX, int nY) =>
         {
             neighboursCode += "" + (int)grid[nX][nY].type;
         }), new CaveCellsIterator((int nX, int nY) =>
@@ -217,7 +217,7 @@ public class RoomsAndMazes : PCGAlgorithm
             if (IsConnection(currentConnection.x, currentConnection.y))
             {
                 RoomsAndMazesCell cellToPaint = null;
-                IterateThroughNeighbours(new CaveCellsIterator((int x, int y) =>
+                IterateThroughNeumannNeighbours(new CaveCellsIterator((int x, int y) =>
                 {
                     if (grid[x][y].type == RoomsAndMazesCellType.SemiGround)
                     {
@@ -269,7 +269,7 @@ public class RoomsAndMazes : PCGAlgorithm
             if (currentCell.type == firstType)
             {
                 currentCell.type = color;
-                IterateThroughNeighbours(new CaveCellsIterator((int nX, int nY) =>
+                IterateThroughNeumannNeighbours(new CaveCellsIterator((int nX, int nY) =>
                 {
                     if (grid[nX][nY].type == firstType)
                     {
@@ -321,7 +321,7 @@ public class RoomsAndMazes : PCGAlgorithm
             cell.type = RoomsAndMazesCellType.Wall;
             deadEnds.Remove(cell);
 
-            IterateThroughNeighbours(new CaveCellsIterator((int nX, int nY) =>
+            IterateThroughNeumannNeighbours(new CaveCellsIterator((int nX, int nY) =>
             {
                 if ((grid[nX][nY].type == RoomsAndMazesCellType.Ground || grid[nX][nY].type == RoomsAndMazesCellType.Door)
                     && IsDeadEnd(nX, nY))
@@ -341,7 +341,7 @@ public class RoomsAndMazes : PCGAlgorithm
     private bool IsDeadEnd(int x, int y)
     {
         int neigbourCount = 0;
-        IterateThroughNeighbours(new CaveCellsIterator((int nX, int nY) =>
+        IterateThroughNeumannNeighbours(new CaveCellsIterator((int nX, int nY) =>
         {
             if (grid[nX][nY].type != RoomsAndMazesCellType.Ground && grid[nX][nY].type != RoomsAndMazesCellType.Door)
             {

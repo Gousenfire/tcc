@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class CellularAutomata : PCGAlgorithm
@@ -45,7 +45,7 @@ public class CellularAutomata : PCGAlgorithm
         {
             // Counting neighbours
             int wallCount = 0;
-            IterateThroughNeighbours(new CaveCellsIterator((int nX, int nY) =>
+            IterateThroughMooreNeighbours(new CaveCellsIterator((int nX, int nY) =>
             {
                 if (grid[nX][nY].type == CaveCellType.Wall)
                 {
@@ -73,7 +73,7 @@ public class CellularAutomata : PCGAlgorithm
         {
             CaveCell currentCell = cellsToLook.Dequeue();
             region.Add(currentCell);
-            IterateThroughNeighbours(new CaveCellsIterator((int nX, int nY) =>
+            IterateThroughNeumannNeighbours(new CaveCellsIterator((int nX, int nY) =>
             {
                 if (mapFlag[nX, nY] == 0 && grid[nX][nY].type == firstType)
                 {
