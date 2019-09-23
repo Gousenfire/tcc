@@ -163,13 +163,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707812b92f6bcac4b83f727d98d3a82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 0,3902764|0,1784812
-  caveWidth: 50
-  caveHeight: 50
-  fillPercent: 49
+  seed: 
+  caveWidth: 100
+  caveHeight: 100
+  fillPercent: 52
   smoothTime: 5
-  wallThreshholdSize: 50
-  groundThreshholdSize: 30
+  wallThreshholdSize: 40
+  groundThreshholdSize: 20
+  minPassageSize: 2
+  maxPassageSize: 3
 --- !u!1 &2052896230
 GameObject:
   m_ObjectHideFlags: 0
