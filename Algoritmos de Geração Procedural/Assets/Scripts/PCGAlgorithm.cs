@@ -13,20 +13,18 @@ public abstract class PCGAlgorithm : MonoBehaviour
     [SerializeField] protected int caveWidth = 20;
     [SerializeField] protected int caveHeight = 20;
 
-    private void Start()
+    public abstract CaveCell[][] GenerateCave();
+
+    public virtual void ClearCave()
     {
-        float time = Time.realtimeSinceStartup;
-        GenerateCave();
-        Debug.Log("Cave created in: " + (Time.realtimeSinceStartup - time) + " seconds");
+        seed = "";
     }
 
-    public abstract void GenerateCave();
-    public abstract void ClearCave();
     protected virtual void InitCave()
     {
         if (seed == "")
         {
-            seed = UnityEngine.Random.value + "|" + UnityEngine.Random.value;
+            seed = UnityEngine.Random.value * UnityEngine.Random.value + "";
         }
         UnityEngine.Random.InitState(seed.GetHashCode());
     }
@@ -138,6 +136,5 @@ public class CaveCell
 public enum CaveCellType
 {
     Ground,
-    Wall,
-    Door
+    Wall
 }

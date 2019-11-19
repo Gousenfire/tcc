@@ -13,35 +13,28 @@ public class RoomsAndMazes : PCGAlgorithm
     [SerializeField] private int createRoomsAttempts = 200;
 
     private RoomsAndMazesCell[][] grid;
-    private bool gridInitialized = false;
+    RoomsAndMazesCell lastRoomCell = null;
 
-    public override void GenerateCave()
+    public override CaveCell[][] GenerateCave()
     {
-        bool dungeonValid = false;
+        InitCave();
 
-        while (!dungeonValid)
-        {
-            ClearCave();
+        CreateRooms();
 
-            InitCave();
+        CreateMaze();
 
-            CreateRooms();
+        ConnectDungeon();
 
-            CreateMaze();
+        CleanDungeon();
 
-            ConnectDungeon();
+        RemoveDeadEnds();
 
-            CleanDungeon();
-
-            RemoveDeadEnds();
-
-            dungeonValid = ValidateDungeon();
-        }
+        return ConvertRoomsAndMazesDungeon2PCGDungeon();
     }
 
     public override void ClearCave()
     {
-        gridInitialized = false;
+        base.ClearCave();
         grid = null;
     }
 
@@ -64,9 +57,8 @@ public class RoomsAndMazes : PCGAlgorithm
                 }
             }
         }
-
-        gridInitialized = true;
     }
+
 
     private void CreateRooms()
     {
@@ -106,6 +98,7 @@ public class RoomsAndMazes : PCGAlgorithm
                         else
                         {
                             grid[x][y].type = RoomsAndMazesCellType.SemiGround;
+                            lastRoomCell = grid[x][y];
                         }
                     }
                 }
@@ -172,31 +165,31 @@ public class RoomsAndMazes : PCGAlgorithm
             neighboursCode += "" + (int)grid[nX][nY].type;
         }), new CaveCellsIterator((int nX, int nY) =>
         {
-            neighboursCode += '0';
+            neighboursCode += '4';
         }), x, y);
 
         return neighboursCode == "1424" ||
                neighboursCode == "2414" ||
                neighboursCode == "4241" ||
-               neighboursCode == "4142";
+               neighboursCode == "4142" ||
+               neighboursCode == "1524" ||
+               neighboursCode == "2514" ||
+               neighboursCode == "5241" ||
+               neighboursCode == "5142" ||
+               neighboursCode == "1425" ||
+               neighboursCode == "2415" ||
+               neighboursCode == "4251" ||
+               neighboursCode == "4152" ||
+               neighboursCode == "1525" ||
+               neighboursCode == "2515" ||
+               neighboursCode == "5251" ||
+               neighboursCode == "5152" ||
+               neighboursCode == "";
     }
 
     private void ConnectDungeon()
     {
-        RoomsAndMazesCell currentCell = null;
-        for (int x = 0; x < caveWidth; x++)
-        {
-            for (int y = 0; y < caveHeight; y++)
-            {
-                if (grid[x][y].type == RoomsAndMazesCellType.SemiGround)
-                {
-                    currentCell = grid[x][y];
-                    x = caveWidth;
-                    y = caveHeight;
-                }
-            }
-        }
-
+        RoomsAndMazesCell currentCell = lastRoomCell;
         RoomsAndMazesCell[] boudries = PaintDungeon(currentCell.x, currentCell.y, RoomsAndMazesCellType.Ground);
         List<RoomsAndMazesCell> connections = new List<RoomsAndMazesCell>();
 
@@ -275,7 +268,7 @@ public class RoomsAndMazes : PCGAlgorithm
                     {
                         cellsToPaint.Add(grid[nX][nY]);
                     }
-                    else if (grid[nX][nY].type != color)
+                    else if (grid[nX][nY].type != color && !boundries.Contains(grid[nX][nY]))
                     {
                         boundries.Add(grid[nX][nY]);
                     }
@@ -331,12 +324,24 @@ public class RoomsAndMazes : PCGAlgorithm
             }), cell.x, cell.y);
         }
     }
-
-    private bool ValidateDungeon() { return true; }
-
     #endregion
 
     #region HelperMethods
+    private CaveCell[][] ConvertRoomsAndMazesDungeon2PCGDungeon()
+    {
+        CaveCell[][] caveGrid = new CaveCell[caveWidth][];
+
+        for (int x = 0; x < caveWidth; x++)
+        {
+            caveGrid[x] = new CaveCell[caveHeight];
+            for (int y = 0; y < caveHeight; y++)
+            {
+                caveGrid[x][y] = grid[x][y].ConvertCellToPCGCell();
+            }
+        }
+
+        return caveGrid;
+    }
 
     private bool IsDeadEnd(int x, int y)
     {
@@ -358,7 +363,7 @@ public class RoomsAndMazes : PCGAlgorithm
 
     private void OnDrawGizmos()
     {
-        if (gridInitialized && grid != null)
+        if (grid != null)
         {
             for (int y = 0; y < caveHeight; y++)
             {
@@ -412,14 +417,14 @@ public class RoomsAndMazesCell
         this.type = RoomsAndMazesCellType.Null;
     }
 
-    public CaveCell convertCellToPCGCell()
+    public CaveCell ConvertCellToPCGCell()
     {
         switch (type)
         {
-            case RoomsAndMazesCellType.SemiGround:
+            case RoomsAndMazesCellType.Ground:
                 return new CaveCell(x, y, CaveCellType.Ground);
             case RoomsAndMazesCellType.Door:
-                return new CaveCell(x, y, CaveCellType.Door);
+                return new CaveCell(x, y, CaveCellType.Ground);
             default:
                 return new CaveCell(x, y, CaveCellType.Wall);
         }

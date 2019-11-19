@@ -17,7 +17,7 @@ public class CellularAutomata : PCGAlgorithm
 
     private CaveCell[][] grid;
 
-    public override void GenerateCave()
+    public override CaveCell[][] GenerateCave()
     {
         InitCave();
         for (int i = 0; i < smoothTime; i++)
@@ -25,6 +25,7 @@ public class CellularAutomata : PCGAlgorithm
             SmoothCave();
         }
         ProcessMap();
+        return grid;
     }
 
     protected override void InitCave()
@@ -307,6 +308,7 @@ public class CellularAutomata : PCGAlgorithm
 
     public override void ClearCave()
     {
+        base.ClearCave();
         grid = null;
     }
 
@@ -325,12 +327,6 @@ public class CellularAutomata : PCGAlgorithm
                             break;
                         case CaveCellType.Wall:
                             Gizmos.color = new Color(0, 0, 0, 0.8f);
-                            break;
-                        case CaveCellType.Door:
-                            Gizmos.color = new Color(0, 1, 0, 0.8f);
-                            break;
-                        default:
-                            Gizmos.color = new Color(1, 0, 0, 0.8f);
                             break;
                     }
                     Gizmos.DrawCube(new Vector3(x, 0, y), Vector3.one * 0.9f);

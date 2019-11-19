@@ -25,24 +25,23 @@ public class NuclearThrone : PCGAlgorithm
     [SerializeField] private int turn180DegreesOccurance = 0;
 
     private CaveCell[][] grid;
-    private bool caveIsBeingConstructed = false;
-    private List<FloorMaker> floorMakers = new List<FloorMaker>();
+    private List<FloorMaker> floorMakers;
     private int currentFloors;
     private int floorMakersCount;
 
-    public override void GenerateCave()
+    public override CaveCell[][] GenerateCave()
     {
-        if (caveIsBeingConstructed) return;
-        caveIsBeingConstructed = true;
         InitCave();
         IterateFloorMakers();
+        return grid;
     }
 
     protected override void InitCave()
     {
         base.InitCave();
+        floorMakers = new List<FloorMaker>();
         floorMakersCount = currentFloors = 0;
-        caveWidth = caveHeight = Mathf.CeilToInt(Mathf.Log(caveSize) / Mathf.Log(2)) * 5;
+        caveWidth = caveHeight = Mathf.CeilToInt(Mathf.Sqrt(caveSize) * 2);
         grid = new CaveCell[caveWidth][];
         for (int x = 0; x < caveWidth; x++)
         {
@@ -80,11 +79,11 @@ public class NuclearThrone : PCGAlgorithm
             }
             currentFloors += floorsPainted;
         }
-        caveIsBeingConstructed = false;
     }
 
     public override void ClearCave()
     {
+        base.ClearCave();
         grid = null;
     }
 
@@ -103,12 +102,6 @@ public class NuclearThrone : PCGAlgorithm
                             break;
                         case CaveCellType.Wall:
                             Gizmos.color = new Color(0, 0, 0, 0.8f);
-                            break;
-                        case CaveCellType.Door:
-                            Gizmos.color = new Color(0, 1, 0, 0.8f);
-                            break;
-                        default:
-                            Gizmos.color = new Color(1, 1, 1, 0.8f);
                             break;
                     }
                     Gizmos.DrawCube(new Vector3(x, 0, y), Vector3.one * 0.9f);
